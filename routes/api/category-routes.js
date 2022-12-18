@@ -7,8 +7,11 @@ router.get("/", (req, res) => {
   // find all categories
   // be sure to include its associated Products
   Category.findAll({ include: [{ model: Product }] }).then((categoryData) => {
-    res.json(categoryData);
-  });
+    res.json(categoryData)
+  })
+  .catch((err) => {
+    res.status(400).json(err)
+  })
 });
 
 router.get("/:id", (req, res) => {
@@ -53,6 +56,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
+  // delete a category by its `id` value
   Category.destroy({
     where: {
       id: req.params.id,
@@ -64,7 +68,6 @@ router.delete("/:id", (req, res) => {
     .catch((err) => {
       res.json(err);
     });
-  // delete a category by its `id` value
 });
 
 module.exports = router;
